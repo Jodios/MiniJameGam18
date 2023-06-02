@@ -3,6 +3,8 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"log"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
@@ -11,7 +13,6 @@ import (
 	"github.com/jodios/minijamegame18/assets/tiles"
 	"github.com/jodios/minijamegame18/utils"
 	"golang.org/x/exp/shiny/materialdesign/colornames"
-	"log"
 )
 
 const (
@@ -46,13 +47,22 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	switch g.state {
 	case START:
 		startButton := g.sprites["start_button.png"]
-		dx, dy := float64(ResX/2-startButton.FrameData.SourceSize.W/2), float64(ResY/2+startButton.FrameData.SourceSize.H/2)
+		startButtonWidth := float64(startButton.FrameData.SourceSize.W)
+		startButtonHeight := float64(startButton.FrameData.SourceSize.H)
+
+		buttonPositionX, buttonPositionY := float64(ResX/2-startButtonWidth/2), float64(ResY/2+startButtonHeight/2)
 		opts := &ebiten.DrawImageOptions{}
-		opts.GeoM.Translate(dx, dy)
+		opts.GeoM.Translate(buttonPositionX, buttonPositionY)
 		screen.DrawImage(startButton.Image, opts)
 		// checking if mouse is hovering over start button
-		mx, my := ebiten.CursorPosition()
-		if float64(mx) > dx && mx < mx+startButton.FrameData.SourceSize.W && float64(my) > dy && my < my+startButton.FrameData.SourceSize.H {
+		mouseX, mouseY := ebiten.CursorPosition()
+
+		mouseIsHoveringOverStart := (float64(mouseX) > buttonPositionX &&
+			float64(mouseX) < buttonPositionX+startButtonWidth &&
+			float64(mouseY) > buttonPositionY &&
+			float64(mouseY) < buttonPositionY+startButtonHeight)
+
+		if mouseIsHoveringOverStart {
 			g.startButtonHover = true
 			fmt.Println("hover")
 		} else {
