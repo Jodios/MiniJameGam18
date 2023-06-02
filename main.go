@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"fmt"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -53,21 +53,31 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		buttonPositionX, buttonPositionY := float64(ResX/2-startButtonWidth/2), float64(ResY/2+startButtonHeight/2)
 		opts := &ebiten.DrawImageOptions{}
 		opts.GeoM.Translate(buttonPositionX, buttonPositionY)
-		screen.DrawImage(startButton.Image, opts)
+
 		// checking if mouse is hovering over start button
 		mouseX, mouseY := ebiten.CursorPosition()
-
-		mouseIsHoveringOverStart := (float64(mouseX) > buttonPositionX &&
+		mouseIsHoveringOverStart := float64(mouseX) > buttonPositionX &&
 			float64(mouseX) < buttonPositionX+startButtonWidth &&
 			float64(mouseY) > buttonPositionY &&
-			float64(mouseY) < buttonPositionY+startButtonHeight)
+			float64(mouseY) < buttonPositionY+startButtonHeight
 
 		if mouseIsHoveringOverStart {
 			g.startButtonHover = true
-			fmt.Println("hover")
+			opts.GeoM.Translate(3, 3)
+			ebiten.SetCursorShape(ebiten.CursorShapePointer)
 		} else {
+			ebiten.SetCursorShape(ebiten.CursorShapeDefault)
 			g.startButtonHover = false
 		}
+		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) && mouseIsHoveringOverStart {
+			g.startButtonClicked = true
+		}
+		if inpututil.IsMouseButtonJustReleased(ebiten.MouseButton0) && g.startButtonClicked {
+			g.gottaSweep.Rewind()
+			g.gottaSweep.Play()
+			g.state = SWEEP
+		}
+		screen.DrawImage(startButton.Image, opts)
 	case SWEEP:
 		g.map1.Draw(screen)
 	}
@@ -87,7 +97,7 @@ func main() {
 	check(err)
 	gottaSweep, err := audioContext.NewPlayer(gottaSweepDecoded)
 	check(err)
-	gottaSweep.Play()
+	//gottaSweep.Play()
 
 	// unpacking sprites packed by texture packer
 	unpacker := &utils.Unpacker{}
