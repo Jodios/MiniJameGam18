@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
@@ -65,7 +64,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 		if mouseIsHoveringOverStart {
 			g.startButtonHover = true
-			fmt.Println("hover", time.Now())
+			fmt.Println("hover")
 		} else {
 			g.startButtonHover = false
 		}
