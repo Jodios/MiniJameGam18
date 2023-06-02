@@ -2,16 +2,18 @@ package main
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-	"golang.org/x/exp/shiny/materialdesign/colornames"
+	"github.com/jodios/minijamegame18/assets/tiles"
+	"github.com/jodios/minijamegame18/utils"
 	"log"
 )
 
 const (
-	ResX = 512
-	ResY = 512
+	ResX = 256
+	ResY = 256
 )
 
 type Game struct {
+	map1 *utils.Map
 }
 
 func (g *Game) Update() error {
@@ -19,7 +21,7 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	screen.Fill(colornames.Blue200)
+	g.map1.Draw(screen)
 }
 
 func (g *Game) Layout(windowWidth, windowHeight int) (resWidth, resHeight int) {
@@ -29,6 +31,16 @@ func (g *Game) Layout(windowWidth, windowHeight int) (resWidth, resHeight int) {
 func main() {
 	ebiten.SetWindowSize(ResX*2, ResY*2)
 	ebiten.SetWindowTitle("Mopper")
-	game := &Game{}
+	m1, err := utils.GetMapConfig(tiles.MAP_1_CONFIG, tiles.MAP_1)
+	check(err)
+	game := &Game{
+		map1: m1,
+	}
 	log.Fatal(ebiten.RunGame(game))
+}
+
+func check(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
