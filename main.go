@@ -28,7 +28,7 @@ func (g *Game) Layout(windowWidth, windowHeight int) (resWidth, resHeight int) {
 
 func main() {
 	ebiten.SetWindowSize(ResX*2, ResY*2)
-	ebiten.SetWindowTitle("JameGame18 Bootstrapped")
+	ebiten.SetWindowTitle("Mopper")
 	game := &Game{}
 	log.Fatal(ebiten.RunGame(game))
 }
