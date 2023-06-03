@@ -3,7 +3,9 @@ package main
 import (
 	"bytes"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	"image"
 	"log"
+	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
@@ -12,7 +14,6 @@ import (
 	"github.com/jodios/minijamegame18/assets/sprites"
 	"github.com/jodios/minijamegame18/assets/tiles"
 	"github.com/jodios/minijamegame18/utils"
-	"golang.org/x/exp/shiny/materialdesign/colornames"
 )
 
 const (
@@ -36,6 +37,9 @@ type Game struct {
 	state              STATE
 	startButtonClicked bool
 	startButtonHover   bool
+	counter            int
+	brushSpeed         int
+	brushScale         int
 }
 
 func (g *Game) Update() error {
@@ -43,7 +47,8 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	screen.Fill(colornames.White)
+	opts := &ebiten.DrawImageOptions{}
+	mouseX, mouseY := ebiten.CursorPosition()
 	switch g.state {
 	case START:
 		startButton := g.sprites["start_button.png"]
@@ -51,11 +56,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		startButtonHeight := float64(startButton.FrameData.SourceSize.H)
 
 		buttonPositionX, buttonPositionY := float64(ResX/2-startButtonWidth/2), float64(ResY/2+startButtonHeight/2)
-		opts := &ebiten.DrawImageOptions{}
 		opts.GeoM.Translate(buttonPositionX, buttonPositionY)
 
 		// checking if mouse is hovering over start button
-		mouseX, mouseY := ebiten.CursorPosition()
 		mouseIsHoveringOverStart := float64(mouseX) > buttonPositionX &&
 			float64(mouseX) < buttonPositionX+startButtonWidth &&
 			float64(mouseY) > buttonPositionY &&
@@ -75,11 +78,25 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		if inpututil.IsMouseButtonJustReleased(ebiten.MouseButton0) && g.startButtonClicked {
 			g.gottaSweep.Rewind()
 			g.gottaSweep.Play()
+			ebiten.SetCursorMode(ebiten.CursorModeHidden)
 			g.state = SWEEP
 		}
 		screen.DrawImage(startButton.Image, opts)
 	case SWEEP:
+		brush := g.sprites["mops.png"]
+		g.counter = (g.counter + 1) % math.MaxInt
 		g.map1.Draw(screen)
+
+		frameWidth := 16
+		i := (g.counter / g.brushSpeed) % (brush.FrameData.SourceSize.W / frameWidth)
+
+		opts.GeoM.Scale(float64(g.brushScale), float64(g.brushScale))
+		opts.GeoM.Translate(float64(-g.brushScale*frameWidth), float64(-g.brushScale*frameWidth))
+		opts.GeoM.Translate(float64(mouseX+frameWidth), float64(mouseY+frameWidth))
+		screen.DrawImage(brush.Image.SubImage(image.Rect(
+			i*frameWidth, 0,
+			i*frameWidth+frameWidth, frameWidth,
+		)).(*ebiten.Image), opts)
 	}
 }
 
@@ -97,7 +114,6 @@ func main() {
 	check(err)
 	gottaSweep, err := audioContext.NewPlayer(gottaSweepDecoded)
 	check(err)
-	//gottaSweep.Play()
 
 	// unpacking sprites packed by texture packer
 	unpacker := &utils.Unpacker{}
@@ -111,6 +127,8 @@ func main() {
 		audioContext: audioContext,
 		gottaSweep:   gottaSweep,
 		sprites:      sprites,
+		brushSpeed:   6,
+		brushScale:   3,
 	}
 	log.Fatal(ebiten.RunGame(game))
 }
