@@ -29,8 +29,6 @@ type Splatter struct {
 	points       []*Splat
 	sprites      map[string]utils.ImageWithFrameDetails
 	counter      int
-	normalSpeed  int
-	backupSpeed  int
 	brush        int
 	splatting    bool
 }
@@ -48,35 +46,24 @@ func NewSplatter(audioContext *audio.Context, sprites map[string]utils.ImageWith
 	check(err)
 	contexts = append(contexts, splatSound)
 	return &Splatter{
+		Speed:        1
 		sprites:      sprites,
 		audioContext: audioContext,
 		splatSounds:  contexts,
-		normalSpeed:  3,
-		backupSpeed:  3,
+		frequency:    10,
 		points:       make([]*Splat, 0),
 	}
 }
 
-func (s *Splatter) Update() error {
-	s.counter = (s.counter + 1) % math.MaxInt
-	return nil
-}
-
-func (s *Splatter) Draw(screen *ebiten.Image) {
-
-	randomNumber := rand.Intn(1000)
-
-	// TODO: this is just some bollocks i made up.
-	// need to come up with a better way of spawning in something
-	// based on speed :/
-	spawnCheck := randomNumber > 50 && randomNumber < 53 ||
-		randomNumber > 60 && randomNumber < 63 ||
-		randomNumber > 0 && randomNumber < 10
-
-	if spawnCheck && !s.splatting {
-		s.points = append(s.points, createRandomSplat())
+func (splatManager *Splatter) Update() error {
+	splatManager.counter = (splatManager.counter + 1) % math.MaxInt
+	frequency := 20/splatManager.Speed
+	spawnCheck := splatManager.counter % frequency == 0
+	
+	if spawnCheck && !splatManager.splatting {
+		splatManager.points = append(splatManager.points, createRandomSplat())
 	}
-
+	
 	for _, splat := range s.points {
 		s.splatting = false
 		opts := &ebiten.DrawImageOptions{}
@@ -103,6 +90,11 @@ func (s *Splatter) Draw(screen *ebiten.Image) {
 			splat.done = true
 		}
 	}
+
+	return nil
+}
+
+func (s *Splatter) Draw(screen *ebiten.Image) {
 
 }
 
