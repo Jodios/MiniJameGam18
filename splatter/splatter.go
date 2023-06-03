@@ -3,14 +3,15 @@ package splatter
 import (
 	"bytes"
 	"fmt"
+	"math"
+	"math/rand"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
 	audio2 "github.com/jodios/minijamegame18/assets/audio"
 	"github.com/jodios/minijamegame18/constants"
 	"github.com/jodios/minijamegame18/utils"
-	"math"
-	"math/rand"
 )
 
 type Splat struct {
@@ -24,6 +25,7 @@ type Splat struct {
 
 type Splatter struct {
 	Speed        int
+	frequency    int
 	audioContext *audio.Context
 	splatSounds  []*audio.Player
 	points       []*Splat
@@ -46,7 +48,7 @@ func NewSplatter(audioContext *audio.Context, sprites map[string]utils.ImageWith
 	check(err)
 	contexts = append(contexts, splatSound)
 	return &Splatter{
-		Speed:        1
+		Speed:        1,
 		sprites:      sprites,
 		audioContext: audioContext,
 		splatSounds:  contexts,
@@ -57,17 +59,37 @@ func NewSplatter(audioContext *audio.Context, sprites map[string]utils.ImageWith
 
 func (splatManager *Splatter) Update() error {
 	splatManager.counter = (splatManager.counter + 1) % math.MaxInt
-	frequency := 20/splatManager.Speed
-	spawnCheck := splatManager.counter % frequency == 0
-	
+	frequency := 60 / splatManager.Speed
+	spawnCheck := splatManager.counter%frequency == 0
+
 	if spawnCheck && !splatManager.splatting {
 		splatManager.points = append(splatManager.points, createRandomSplat())
 	}
-	
-	for _, splat := range s.points {
-		s.splatting = false
+
+	for _, splat := range splatManager.points {
+		splatManager.splatting = false
+		if splat.done {
+			continue
+		}
+		spawnSpeed := 0.09
+		if splat.scale > splat.normalScale && splat.scale-spawnSpeed >= splat.normalScale {
+			splat.scale -= spawnSpeed
+			splatManager.splatting = true
+		} else {
+			randomSound := rand.Intn(len(splatManager.splatSounds))
+			splatManager.splatSounds[randomSound].Rewind()
+			splatManager.splatSounds[randomSound].Play()
+			splat.done = true
+		}
+	}
+
+	return nil
+}
+
+func (splatManager *Splatter) Draw(screen *ebiten.Image) {
+	for _, splat := range splatManager.points {
 		opts := &ebiten.DrawImageOptions{}
-		frame := s.sprites[splat.asset]
+		frame := splatManager.sprites[splat.asset]
 		frameWidth, frameHeight := float64(frame.FrameData.SourceSize.W)*splat.scale, float64(frame.FrameData.SourceSize.H)*splat.scale
 
 		opts.GeoM.Scale(splat.scale, splat.scale)
@@ -76,26 +98,7 @@ func (splatManager *Splatter) Update() error {
 			splat.Y-frameHeight/2,
 		)
 		screen.DrawImage(frame.Image, opts)
-		if splat.done {
-			continue
-		}
-		spawnSpeed := 0.09
-		if splat.scale > splat.normalScale && splat.scale-spawnSpeed >= splat.normalScale {
-			splat.scale -= spawnSpeed
-			s.splatting = true
-		} else {
-			randomSound := rand.Intn(len(s.splatSounds))
-			s.splatSounds[randomSound].Rewind()
-			s.splatSounds[randomSound].Play()
-			splat.done = true
-		}
 	}
-
-	return nil
-}
-
-func (s *Splatter) Draw(screen *ebiten.Image) {
-
 }
 
 func createRandomSplat() *Splat {
