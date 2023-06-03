@@ -8,4 +8,10 @@ var (
 
 	//go:embed sweepin_time.mp3
 	SWEEPIN_TIME []byte
+
+	//go:embed song_01.mp3
+	INTRO_SONG []byte
+
+	//go:embed song_02.mp3
+	MAIN_LOOP_SONG []byte
 )
