@@ -26,6 +26,7 @@ type StartScreen struct {
 	startButtonWidth   float64
 	startButtonHeight  float64
 	startButtonClicked bool
+	startButtonTapped  bool
 	counter            int
 	DONE               bool
 }

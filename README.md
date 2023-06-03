@@ -3,6 +3,7 @@ Try game [here.](https://minijamegame18.web.app/)
 
 
 # [Kitchen and more tileset](https://limezu.itch.io/kitchen) by Limezu
+# [Splat Pack by Kenney Assets](https://kenney-assets.itch.io/splat-pack)
 
 # Credit to 
 Ej#6446 - Sound   
