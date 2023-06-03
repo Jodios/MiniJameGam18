@@ -87,7 +87,8 @@ func (s *StartScreen) Update() error {
 		s.sweepinTime.Rewind()
 		s.sweepinTime.Play()
 		s.introSong.Close()
-		ebiten.SetCursorMode(ebiten.CursorModeHidden)
+		ebiten.SetCursorShape(ebiten.CursorShapeCrosshair)
+		//ebiten.SetCursorMode(ebiten.CursorModeHidden)
 		s.DONE = true
 	}
 	return nil

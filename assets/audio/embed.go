@@ -12,6 +12,6 @@ var (
 	//go:embed song_01.mp3
 	INTRO_SONG []byte
 
-	//go:embed song_02.mp3
+	//go:embed song_02_spedup.mp3
 	MAIN_LOOP_SONG []byte
 )
