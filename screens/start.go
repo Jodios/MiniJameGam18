@@ -2,6 +2,8 @@ package screens
 
 import (
 	"bytes"
+	"math"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
@@ -10,7 +12,6 @@ import (
 	"github.com/jodios/minijamegame18/assets/tiles"
 	"github.com/jodios/minijamegame18/constants"
 	"github.com/jodios/minijamegame18/utils"
-	"math"
 )
 
 type StartScreen struct {
@@ -66,7 +67,7 @@ func NewStartScreen(audioContext *audio.Context, sprites map[string]utils.ImageW
 
 func (s *StartScreen) Update() error {
 	s.counter = (s.counter + 1) % math.MaxInt
-	if !s.introSong.IsPlaying() {
+	if !s.introSong.IsPlaying() && !s.DONE {
 		s.introSong.Rewind()
 		s.introSong.Play()
 	}
