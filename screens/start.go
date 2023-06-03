@@ -7,13 +7,15 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	audio2 "github.com/jodios/minijamegame18/assets/audio"
+	"github.com/jodios/minijamegame18/assets/tiles"
 	"github.com/jodios/minijamegame18/constants"
 	"github.com/jodios/minijamegame18/utils"
-	"log"
+	"math"
 )
 
 type StartScreen struct {
 	sprites            map[string]utils.ImageWithFrameDetails
+	background         *utils.Map
 	audioContext       *audio.Context
 	introSong          *audio.Player
 	sweepinTime        *audio.Player
@@ -24,32 +26,32 @@ type StartScreen struct {
 	startButtonWidth   float64
 	startButtonHeight  float64
 	startButtonClicked bool
+	counter            int
 	DONE               bool
 }
 
 func NewStartScreen(audioContext *audio.Context, sprites map[string]utils.ImageWithFrameDetails) *StartScreen {
 	introSongDecoded, err := mp3.DecodeWithoutResampling(bytes.NewReader(audio2.INTRO_SONG))
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
+
 	introSong, err := audioContext.NewPlayer(introSongDecoded)
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
+
 	sweepinTimeDecoded, err := mp3.DecodeWithoutResampling(bytes.NewReader(audio2.SWEEPIN_TIME))
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
+
 	sweepinTime, err := audioContext.NewPlayer(sweepinTimeDecoded)
-	if err != nil {
-		log.Fatal(err)
-	}
+	check(err)
+
+	sc, err := utils.GetMapConfig(tiles.START_SCREEN_1_CONFIG, tiles.START_SCREEN_1_PNG)
+	check(err)
 
 	startButton := sprites["start_button.png"]
 	startButtonWidth := float64(startButton.FrameData.SourceSize.W)
 	startButtonHeight := float64(startButton.FrameData.SourceSize.H)
 	return &StartScreen{
 		audioContext:      audioContext,
+		background:        sc,
 		sprites:           sprites,
 		introSong:         introSong,
 		sweepinTime:       sweepinTime,
@@ -62,6 +64,7 @@ func NewStartScreen(audioContext *audio.Context, sprites map[string]utils.ImageW
 }
 
 func (s *StartScreen) Update() error {
+	s.counter = (s.counter + 1) % math.MaxInt
 	if !s.introSong.IsPlaying() {
 		s.introSong.Rewind()
 		s.introSong.Play()
@@ -89,8 +92,10 @@ func (s *StartScreen) Update() error {
 	}
 	return nil
 }
+
 func (s *StartScreen) Draw(screen *ebiten.Image) {
 	opts := &ebiten.DrawImageOptions{}
+	s.background.Draw(screen)
 	opts.GeoM.Translate(s.startButtonX, s.startButtonY)
 	if s.startButtonHover {
 		opts.GeoM.Translate(3, 3)
