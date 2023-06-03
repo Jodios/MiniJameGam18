@@ -68,7 +68,7 @@
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
-        <uint>1</uint>
+        <uint>0</uint>
         <key>webpQualityLevel</key>
         <uint>101</uint>
         <key>textureSubPath</key>
@@ -124,7 +124,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename></filename>
+                <filename>sprites.json</filename>
             </struct>
         </map>
         <key>multiPackMode</key>
@@ -141,7 +141,7 @@
             <string></string>
         </struct>
         <key>autoAliasEnabled</key>
-        <true/>
+        <false/>
         <key>trimSpriteNames</key>
         <false/>
         <key>prependSmartFolderName</key>
@@ -155,7 +155,7 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
-            <uint>1</uint>
+            <uint>0</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
@@ -173,6 +173,71 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat00.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat01.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat02.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat03.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat04.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat05.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat06.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat07.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat08.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat09.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat10.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat11.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat12.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat13.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat14.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat15.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat16.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat17.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat18.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat19.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat20.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat21.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat22.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat23.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat24.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat25.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat26.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat27.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat28.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat29.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat30.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat31.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat32.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat33.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat34.png</key>
+            <key type="filename">kenney_splatpack/PNG/Default (256px)/splat35.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">mops/mops.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>36,4,72,8</rect>
+                <key>scale9Paddings</key>
+                <rect>36,4,72,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">start_button.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -188,6 +253,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">title.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>127,32,255,63</rect>
+                <key>scale9Paddings</key>
+                <rect>127,32,255,63</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileLists</key>
         <map type="SpriteSheetMap">
@@ -196,6 +276,44 @@
                 <key>files</key>
                 <array>
                     <filename>start_button.png</filename>
+                    <filename>mops/mops.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat00.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat01.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat02.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat03.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat04.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat05.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat06.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat07.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat08.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat09.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat10.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat11.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat12.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat13.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat14.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat15.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat16.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat17.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat18.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat19.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat20.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat21.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat22.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat23.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat24.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat25.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat26.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat27.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat28.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat29.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat30.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat31.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat32.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat33.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat34.png</filename>
+                    <filename>kenney_splatpack/PNG/Default (256px)/splat35.png</filename>
+                    <filename>title.png</filename>
                 </array>
             </struct>
         </map>

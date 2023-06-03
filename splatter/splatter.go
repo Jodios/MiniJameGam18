@@ -30,9 +30,9 @@ var (
 )
 
 type Splat struct {
-	X           float64
-	Y           float64
-	asset       string
+	x           float64
+	y           float64
+	asset       utils.ImageWithFrameDetails
 	normalScale float64
 	scale       float64
 	color       color.RGBA
@@ -44,7 +44,7 @@ type Splatter struct {
 	frequency    int
 	audioContext *audio.Context
 	splatSounds  []*audio.Player
-	points       []*Splat
+	Splats       []*Splat
 	sprites      map[string]utils.ImageWithFrameDetails
 	counter      int
 	brush        int
@@ -68,8 +68,8 @@ func NewSplatter(audioContext *audio.Context, sprites map[string]utils.ImageWith
 		sprites:      sprites,
 		audioContext: audioContext,
 		splatSounds:  contexts,
-		frequency:    10,
-		points:       make([]*Splat, 0),
+		frequency:    1,
+		Splats:       make([]*Splat, 0),
 	}
 }
 
@@ -79,10 +79,10 @@ func (splatManager *Splatter) Update() error {
 	spawnCheck := splatManager.counter%frequency == 0
 
 	if spawnCheck && !splatManager.splatting {
-		splatManager.points = append(splatManager.points, createRandomSplat())
+		splatManager.Splats = append(splatManager.Splats, splatManager.createRandomSplat())
 	}
 
-	for _, splat := range splatManager.points {
+	for _, splat := range splatManager.Splats {
 		splatManager.splatting = false
 		if splat.done {
 			continue
@@ -103,15 +103,16 @@ func (splatManager *Splatter) Update() error {
 }
 
 func (splatManager *Splatter) Draw(screen *ebiten.Image) {
-	for _, splat := range splatManager.points {
+	for _, splat := range splatManager.Splats {
 		opts := &colorm.DrawImageOptions{}
-		frame := splatManager.sprites[splat.asset]
-		frameWidth, frameHeight := float64(frame.FrameData.SourceSize.W)*splat.scale, float64(frame.FrameData.SourceSize.H)*splat.scale
+		frame := splat.asset
+		frameWidth, frameHeight := float64(frame.FrameData.SourceSize.W)*splat.scale,
+			float64(frame.FrameData.SourceSize.H)*splat.scale
 
 		opts.GeoM.Scale(splat.scale, splat.scale)
 		opts.GeoM.Translate(
-			splat.X-frameWidth/2,
-			splat.Y-frameHeight/2,
+			splat.x-frameWidth/2,
+			splat.y-frameHeight/2,
 		)
 
 		var colorManager colorm.ColorM
@@ -125,14 +126,26 @@ func (splatManager *Splatter) Draw(screen *ebiten.Image) {
 	}
 }
 
-func createRandomSplat() *Splat {
+func (splatManager *Splatter) createRandomSplat() *Splat {
 	random := rand.Intn(len(colors))
 	return &Splat{
-		X:           float64(rand.Intn(constants.ResX)),
-		Y:           float64(rand.Intn(constants.ResY)),
-		asset:       fmt.Sprintf("splat%02d.png", rand.Intn(36)),
+		x:           float64(rand.Intn(constants.ResX)),
+		y:           float64(rand.Intn(constants.ResY)),
+		asset:       splatManager.sprites[fmt.Sprintf("splat%02d.png", rand.Intn(36))],
 		normalScale: .1,
 		scale:       1,
 		color:       colors[random],
 	}
+}
+
+func (s *Splat) CheckCollision(cursorPosX, cursorPosY int) bool {
+	var True bool = false
+	if !s.done {
+		return True
+	}
+	frameWidth, frameHeight := float64(s.asset.FrameData.SourceSize.W)*s.scale,
+		float64(s.asset.FrameData.SourceSize.H)*s.scale
+	splatStartX, splatStartY := s.x-frameWidth/2, s.y-frameHeight/2
+	return float64(cursorPosX) > splatStartX && float64(cursorPosX) < splatStartX+frameWidth &&
+		float64(cursorPosY) > splatStartY && float64(cursorPosY) < splatStartY+frameHeight
 }

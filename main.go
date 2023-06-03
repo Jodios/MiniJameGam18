@@ -80,6 +80,7 @@ func main() {
 		sprites:      sprites,
 		startScreen:  screens.NewStartScreen(audioContext, sprites),
 		brush:        brushes.NewBrush(audioContext, sprites),
+		//state:        SWEEP,
 	}
 	log.Fatal(ebiten.RunGame(game))
 }

@@ -90,7 +90,6 @@ func (s *StartScreen) Update() error {
 		s.sweepinTime.Play()
 		s.introSong.Close()
 		ebiten.SetCursorShape(ebiten.CursorShapeCrosshair)
-		//ebiten.SetCursorMode(ebiten.CursorModeHidden)
 		s.DONE = true
 	}
 	return nil
@@ -104,4 +103,12 @@ func (s *StartScreen) Draw(screen *ebiten.Image) {
 		opts.GeoM.Translate(3, 3)
 	}
 	screen.DrawImage(s.startButton.Image, opts)
+
+	title := s.sprites["title.png"]
+	titleScaledWidth := float64(title.FrameData.SourceSize.W) * .4
+	opts.GeoM.Reset()
+	opts.GeoM.Scale(.4, .4)
+	opts.GeoM.Translate(0, 16)
+	opts.GeoM.Translate(constants.ResX/2-titleScaledWidth/2, 0)
+	screen.DrawImage(title.Image, opts)
 }
