@@ -1,8 +1,16 @@
 {"frames": [
 
 {
+	"filename": "mops.png",
+	"frame": {"x":1,"y":1,"w":144,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":144,"h":16},
+	"sourceSize": {"w":144,"h":16}
+},
+{
 	"filename": "start_button.png",
-	"frame": {"x":1,"y":1,"w":160,"h":48},
+	"frame": {"x":1,"y":19,"w":160,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":48},
@@ -13,8 +21,8 @@
 	"version": "1.0",
 	"image": "sprites.png",
 	"format": "RGBA8888",
-	"size": {"w":162,"h":50},
+	"size": {"w":162,"h":68},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:3e0e8a2005e923a870ae406e3e21f3c9:2bf031a9b20920014f901508d54a838d:1eabdf11f75e3a4fe3147baf7b5be24b$"
+	"smartupdate": "$TexturePacker:SmartUpdate:95dd6d6a0dda444c44fb1b6a5add5fff:13cc8fd4790dec11b2fef05f05a94382:1eabdf11f75e3a4fe3147baf7b5be24b$"
 }
 }
