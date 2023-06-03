@@ -62,12 +62,13 @@ func (b *Brush) Update() error {
 func (b *Brush) Draw(screen *ebiten.Image) {
 	opts := &ebiten.DrawImageOptions{}
 	frameWidth := 16
+	scaledWidth := frameWidth * b.normalScale
 	i := (b.counter / b.normalSpeed) % (b.sprites[Main].FrameData.SourceSize.W / frameWidth)
 
 	mouseX, mouseY := ebiten.CursorPosition()
 	opts.GeoM.Scale(float64(b.normalScale), float64(b.normalScale))
+	opts.GeoM.Translate(float64(mouseX+scaledWidth/4), float64(mouseY+scaledWidth/10))
 	opts.GeoM.Translate(float64(-b.normalScale*frameWidth), float64(-b.normalScale*frameWidth))
-	opts.GeoM.Translate(float64(mouseX+frameWidth), float64(mouseY+frameWidth))
 	screen.DrawImage(b.sprites[Main].Image.SubImage(image.Rect(
 		i*frameWidth, 0,
 		i*frameWidth+frameWidth, frameWidth,

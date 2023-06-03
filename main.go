@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/jodios/minijamegame18/assets/sprites"
 	"github.com/jodios/minijamegame18/brushes"
 	"github.com/jodios/minijamegame18/constants"
@@ -53,6 +55,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		g.map1.Draw(screen)
 		g.brush.Draw(screen)
 	}
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f\nFPS: %0.2f", ebiten.ActualFPS(), ebiten.ActualFPS()))
 }
 
 func (g *Game) Layout(windowWidth, windowHeight int) (resWidth, resHeight int) {
@@ -60,7 +63,7 @@ func (g *Game) Layout(windowWidth, windowHeight int) (resWidth, resHeight int) {
 }
 
 func main() {
-	ebiten.SetWindowSize(constants.ResX*2, constants.ResY*2)
+	ebiten.SetWindowSize(constants.ResX*4, constants.ResY*4)
 	ebiten.SetWindowTitle("Mop It Up!")
 
 	// setting up audio context

@@ -14,4 +14,10 @@ var (
 
 	//go:embed song_02_spedup.mp3
 	MAIN_LOOP_SONG []byte
+
+	//go:embed splat_01.mp3
+	SPLAT_01 []byte
+
+	//go:embed splat_02.mp3
+	SPLAT_02 []byte
 )
