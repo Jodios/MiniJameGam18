@@ -48,6 +48,7 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	opts := &ebiten.DrawImageOptions{}
+	mouseX, mouseY := ebiten.CursorPosition()
 	switch g.state {
 	case START:
 		startButton := g.sprites["start_button.png"]
@@ -58,7 +59,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		opts.GeoM.Translate(buttonPositionX, buttonPositionY)
 
 		// checking if mouse is hovering over start button
-		mouseX, mouseY := ebiten.CursorPosition()
 		mouseIsHoveringOverStart := float64(mouseX) > buttonPositionX &&
 			float64(mouseX) < buttonPositionX+startButtonWidth &&
 			float64(mouseY) > buttonPositionY &&
@@ -90,7 +90,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		frameWidth := 16
 		i := (g.counter / g.brushSpeed) % (brush.FrameData.SourceSize.W / frameWidth)
 
-		mouseX, mouseY := ebiten.CursorPosition()
 		opts.GeoM.Scale(float64(g.brushScale), float64(g.brushScale))
 		opts.GeoM.Translate(float64(-g.brushScale*frameWidth), float64(-g.brushScale*frameWidth))
 		opts.GeoM.Translate(float64(mouseX+frameWidth), float64(mouseY+frameWidth))
