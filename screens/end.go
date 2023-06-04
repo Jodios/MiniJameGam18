@@ -19,23 +19,21 @@ import (
 )
 
 type EndScreen struct {
-	sprites          map[string]utils.ImageWithFrameDetails
-	background       *utils.Map
-	audioContext     *audio.Context
-	endSong          *audio.Player
-	sweepinTime      *audio.Player
-	endButton        utils.ImageWithFrameDetails
-	endButtonHover   bool
-	endButtonX       float64
-	endButtonY       float64
-	endButtonWidth   float64
-	endButtonHeight  float64
-	endButtonClicked bool
-	endButtonTapped  bool
-	counter          int
-	font             font.Face
-	Score            int
-	DONE             bool
+	sprites         map[string]utils.ImageWithFrameDetails
+	background      *utils.Map
+	audioContext    *audio.Context
+	endSong         *audio.Player
+	sweepinTime     *audio.Player
+	endButton       utils.ImageWithFrameDetails
+	endButtonHover  bool
+	endButtonX      float64
+	endButtonY      float64
+	endButtonWidth  float64
+	endButtonHeight float64
+	counter         int
+	font            font.Face
+	Score           int
+	DONE            bool
 }
 
 func NewEndScreen(audioContext *audio.Context, sprites map[string]utils.ImageWithFrameDetails, font font.Face) *EndScreen {
@@ -79,21 +77,26 @@ func (e *EndScreen) Update() error {
 		e.endSong.Rewind()
 		e.endSong.Play()
 	}
-	mouseX, mouseY := ebiten.CursorPosition()
 	// checking if mouse is hovering over end button
-	e.endButtonHover = float64(mouseX) > e.endButtonX &&
+	mouseX, mouseY := ebiten.CursorPosition()
+	tapX, tapY := inpututil.TouchPositionInPreviousTick(ebiten.TouchID(0))
+	mouseHover := float64(mouseX) > e.endButtonX &&
 		float64(mouseX) < e.endButtonX+e.endButtonWidth &&
 		float64(mouseY) > e.endButtonY &&
 		float64(mouseY) < e.endButtonY+e.endButtonHeight
+	tapHover := float64(tapX) > e.endButtonX &&
+		float64(tapX) < e.endButtonX+e.endButtonWidth &&
+		float64(tapY) > e.endButtonY &&
+		float64(tapY) < e.endButtonY+e.endButtonHeight
+	e.endButtonHover = mouseHover || tapHover
+
 	if e.endButtonHover {
 		ebiten.SetCursorShape(ebiten.CursorShapePointer)
 	} else {
 		ebiten.SetCursorShape(ebiten.CursorShapeDefault)
 	}
-	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) && e.endButtonHover {
-		e.endButtonClicked = true
-	}
-	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButton0) && e.endButtonClicked {
+
+	if (inpututil.IsMouseButtonJustReleased(ebiten.MouseButton0) || inpututil.IsTouchJustReleased(ebiten.TouchID(0))) && e.endButtonHover {
 		e.sweepinTime.Rewind()
 		e.sweepinTime.Play()
 		e.endSong.Close()

@@ -15,21 +15,19 @@ import (
 )
 
 type StartScreen struct {
-	sprites            map[string]utils.ImageWithFrameDetails
-	background         *utils.Map
-	audioContext       *audio.Context
-	introSong          *audio.Player
-	sweepinTime        *audio.Player
-	startButton        utils.ImageWithFrameDetails
-	startButtonHover   bool
-	startButtonX       float64
-	startButtonY       float64
-	startButtonWidth   float64
-	startButtonHeight  float64
-	startButtonClicked bool
-	startButtonTapped  bool
-	counter            int
-	DONE               bool
+	sprites           map[string]utils.ImageWithFrameDetails
+	background        *utils.Map
+	audioContext      *audio.Context
+	introSong         *audio.Player
+	sweepinTime       *audio.Player
+	startButton       utils.ImageWithFrameDetails
+	startButtonHover  bool
+	startButtonX      float64
+	startButtonY      float64
+	startButtonWidth  float64
+	startButtonHeight float64
+	counter           int
+	DONE              bool
 }
 
 func NewStartScreen(audioContext *audio.Context, sprites map[string]utils.ImageWithFrameDetails) *StartScreen {
@@ -71,21 +69,27 @@ func (s *StartScreen) Update() error {
 		s.introSong.Rewind()
 		s.introSong.Play()
 	}
+
+	// checking if mouse/touch is hovering over start button
 	mouseX, mouseY := ebiten.CursorPosition()
-	// checking if mouse is hovering over start button
-	s.startButtonHover = float64(mouseX) > s.startButtonX &&
+	tapX, tapY := inpututil.TouchPositionInPreviousTick(ebiten.TouchID(0))
+	mouseHover := float64(mouseX) > s.startButtonX &&
 		float64(mouseX) < s.startButtonX+s.startButtonWidth &&
 		float64(mouseY) > s.startButtonY &&
 		float64(mouseY) < s.startButtonY+s.startButtonHeight
+	tapHover := float64(tapX) > s.startButtonX &&
+		float64(tapX) < s.startButtonX+s.startButtonWidth &&
+		float64(tapY) > s.startButtonY &&
+		float64(tapY) < s.startButtonY+s.startButtonHeight
+	s.startButtonHover = mouseHover || tapHover
+
+	// checking if tapped on button (touch screen specific)
 	if s.startButtonHover {
 		ebiten.SetCursorShape(ebiten.CursorShapePointer)
 	} else {
 		ebiten.SetCursorShape(ebiten.CursorShapeDefault)
 	}
-	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) && s.startButtonHover {
-		s.startButtonClicked = true
-	}
-	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButton0) && s.startButtonClicked {
+	if (inpututil.IsMouseButtonJustReleased(ebiten.MouseButton0) || inpututil.IsTouchJustReleased(ebiten.TouchID(0))) && s.startButtonHover {
 		s.sweepinTime.Rewind()
 		s.sweepinTime.Play()
 		s.introSong.Close()

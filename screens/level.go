@@ -71,13 +71,25 @@ func (l *Level) Update() error {
 			s.MakeMoldy()
 			l.health--
 		}
-		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) && s.CheckCollision(ebiten.CursorPosition()) {
+		if (inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) || inpututil.IsTouchJustReleased(ebiten.TouchID(0))) &&
+			(s.CheckCollision(ebiten.CursorPosition()) || s.CheckCollision(inpututil.TouchPositionInPreviousTick(ebiten.TouchID(0)))) {
+
 			l.Score++
 			l.splatGenerator.Speed = l.Score/10 + 1
 			l.removeSplat(i)
+
 		}
 	}
 	return nil
+}
+
+func (l *Level) Draw(screen *ebiten.Image) {
+	l.background.Draw(screen)
+	l.splatGenerator.Draw(screen)
+	scoreString := fmt.Sprintf("Score: %d", l.Score)
+	healthString := fmt.Sprintf("Air Quality: %d", l.health)
+	text.Draw(screen, scoreString, l.Font, 0, 20, color.Black)
+	text.Draw(screen, healthString, l.Font, 0, 40, color.Black)
 }
 
 func (l *Level) removeSplat(i int) {
@@ -88,13 +100,4 @@ func (l *Level) removeSplat(i int) {
 	}
 	l.splatGenerator.Splats =
 		append(l.splatGenerator.Splats[:i], l.splatGenerator.Splats[i+1:]...)
-}
-
-func (l *Level) Draw(screen *ebiten.Image) {
-	l.background.Draw(screen)
-	l.splatGenerator.Draw(screen)
-	scoreString := fmt.Sprintf("Score: %d", l.Score)
-	healthString := fmt.Sprintf("Air Quality: %d", l.health)
-	text.Draw(screen, scoreString, l.Font, 0, 20, color.Black)
-	text.Draw(screen, healthString, l.Font, 0, 40, color.Black)
 }
