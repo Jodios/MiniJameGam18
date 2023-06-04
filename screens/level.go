@@ -3,6 +3,10 @@ package screens
 import (
 	"bytes"
 	"fmt"
+	"image/color"
+	"math"
+	"time"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/audio/mp3"
@@ -15,8 +19,6 @@ import (
 	"github.com/jodios/minijamegame18/utils"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
-	"image/color"
-	"math"
 )
 
 type Level struct {
@@ -27,6 +29,7 @@ type Level struct {
 	counter        int
 	splatGenerator *splatter.Splatter
 	score          int
+	health         int
 	Font           font.Face
 	DONE           bool
 }
@@ -55,6 +58,7 @@ func NewLevelScreen(audioContext *audio.Context, sprites map[string]utils.ImageW
 		background:     sc,
 		sprites:        sprites,
 		gameplaySong:   mainSong,
+		health:         5,
 		splatGenerator: splatter.NewSplatter(audioContext, sprites),
 		Font:           font,
 	}
@@ -68,18 +72,30 @@ func (l *Level) Update() error {
 	}
 	l.splatGenerator.Update()
 	for i, s := range l.splatGenerator.Splats {
+		splatIsTooOld := time.Now().Sub(s.CreationTime) > l.splatGenerator.SplatLifetime
+		if splatIsTooOld && !s.IsMoldy {
+			s.MakeMoldy()
+			l.health--
+		}
 		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) && s.CheckCollision(ebiten.CursorPosition()) {
 			l.score++
-			l.splatGenerator.Splats =
-				append(l.splatGenerator.Splats[:i], l.splatGenerator.Splats[i+1:]...)
+			l.splatGenerator.Speed = l.score/10 + 1
+			l.removeSplat(i)
 		}
 	}
 	return nil
+}
+
+func (l *Level) removeSplat(i int) {
+	l.splatGenerator.Splats =
+		append(l.splatGenerator.Splats[:i], l.splatGenerator.Splats[i+1:]...)
 }
 
 func (l *Level) Draw(screen *ebiten.Image) {
 	l.background.Draw(screen)
 	l.splatGenerator.Draw(screen)
 	scoreString := fmt.Sprintf("Score: %d", l.score)
+	healthString := fmt.Sprintf("Air Quality: %d", l.health)
 	text.Draw(screen, scoreString, l.Font, 0, 20, color.Black)
+	text.Draw(screen, healthString, l.Font, 0, 40, color.Black)
 }
