@@ -66,8 +66,14 @@ func (b *Brush) Draw(screen *ebiten.Image) {
 	i := (b.counter / b.normalSpeed) % (b.sprites[Main].FrameData.SourceSize.W / frameWidth)
 
 	mouseX, mouseY := ebiten.CursorPosition()
+	touchX, touchY := inpututil.TouchPositionInPreviousTick(ebiten.TouchID(0))
+
+	// If you're using mobile mouse will be 0 and same for
+	// desktop.
+	xPos, yPos := mouseX+touchX, mouseY+touchY
+
 	opts.GeoM.Scale(float64(b.normalScale), float64(b.normalScale))
-	opts.GeoM.Translate(float64(mouseX+scaledWidth/4), float64(mouseY+scaledWidth/10))
+	opts.GeoM.Translate(float64(xPos+scaledWidth/4), float64(yPos+scaledWidth/10))
 	opts.GeoM.Translate(float64(-b.normalScale*frameWidth), float64(-b.normalScale*frameWidth))
 	screen.DrawImage(b.sprites[Main].Image.SubImage(image.Rect(
 		i*frameWidth, 0,

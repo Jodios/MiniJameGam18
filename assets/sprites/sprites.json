@@ -17,8 +17,16 @@
 	"sourceSize": {"w":160,"h":48}
 },
 {
+	"filename": "sound.png",
+	"frame": {"x":304,"y":0,"w":64,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":16},
+	"sourceSize": {"w":64,"h":16}
+},
+{
 	"filename": "splat00.png",
-	"frame": {"x":464,"y":0,"w":256,"h":256},
+	"frame": {"x":368,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -26,7 +34,7 @@
 },
 {
 	"filename": "splat01.png",
-	"frame": {"x":720,"y":0,"w":256,"h":256},
+	"frame": {"x":624,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -34,7 +42,7 @@
 },
 {
 	"filename": "splat02.png",
-	"frame": {"x":976,"y":0,"w":256,"h":256},
+	"frame": {"x":880,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -42,7 +50,7 @@
 },
 {
 	"filename": "splat03.png",
-	"frame": {"x":1232,"y":0,"w":256,"h":256},
+	"frame": {"x":1136,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -50,7 +58,7 @@
 },
 {
 	"filename": "splat04.png",
-	"frame": {"x":1488,"y":0,"w":256,"h":256},
+	"frame": {"x":1392,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -58,7 +66,7 @@
 },
 {
 	"filename": "splat05.png",
-	"frame": {"x":1744,"y":0,"w":256,"h":256},
+	"frame": {"x":1648,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -306,7 +314,7 @@
 },
 {
 	"filename": "start_button.png",
-	"frame": {"x":304,"y":0,"w":160,"h":48},
+	"frame": {"x":1536,"y":1024,"w":160,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":48},
@@ -314,7 +322,7 @@
 },
 {
 	"filename": "title.png",
-	"frame": {"x":1536,"y":1024,"w":509,"h":126},
+	"frame": {"x":0,"y":1280,"w":509,"h":126},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":509,"h":126},
@@ -325,8 +333,8 @@
 	"version": "1.0",
 	"image": "sprites.png",
 	"format": "RGBA8888",
-	"size": {"w":2048,"h":1280},
+	"size": {"w":2048,"h":1406},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:41b602abfbfcbe1e65bd2b3697aee389:27764e131e79dbbaa0dcc75ab19ff633:1eabdf11f75e3a4fe3147baf7b5be24b$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a60450fc01125868383290298bc27b76:c56820804a5023285229bcb86806fbeb:1eabdf11f75e3a4fe3147baf7b5be24b$"
 }
 }
