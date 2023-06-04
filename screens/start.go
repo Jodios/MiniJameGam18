@@ -104,11 +104,14 @@ func (s *StartScreen) Draw(screen *ebiten.Image) {
 	}
 	screen.DrawImage(s.startButton.Image, opts)
 
+	yOffset := math.Sin(float64((s.counter / 4) % 100))
 	title := s.sprites["title.png"]
 	titleScaledWidth := float64(title.FrameData.SourceSize.W) * .4
+	opts.Filter = ebiten.FilterLinear
 	opts.GeoM.Reset()
 	opts.GeoM.Scale(.4, .4)
 	opts.GeoM.Translate(0, 16)
-	opts.GeoM.Translate(constants.ResX/2-titleScaledWidth/2, 0)
+	opts.GeoM.Translate(constants.ResX/2-titleScaledWidth/2.3, yOffset)
+	opts.GeoM.Rotate(15 * (math.Pi / 180))
 	screen.DrawImage(title.Image, opts)
 }
