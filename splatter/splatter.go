@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"math"
 	"math/rand"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
@@ -30,25 +31,28 @@ var (
 )
 
 type Splat struct {
-	x           float64
-	y           float64
-	asset       utils.ImageWithFrameDetails
-	normalScale float64
-	scale       float64
-	color       color.RGBA
-	done        bool
+	x            float64
+	y            float64
+	asset        utils.ImageWithFrameDetails
+	CreationTime time.Time
+	normalScale  float64
+	scale        float64
+	Color        color.RGBA
+	done         bool
+	IsMoldy      bool
 }
 
 type Splatter struct {
-	Speed        int
-	frequency    int
-	audioContext *audio.Context
-	splatSounds  []*audio.Player
-	Splats       []*Splat
-	sprites      map[string]utils.ImageWithFrameDetails
-	counter      int
-	brush        int
-	splatting    bool
+	Speed         int
+	frequency     int
+	audioContext  *audio.Context
+	splatSounds   []*audio.Player
+	Splats        []*Splat
+	SplatLifetime time.Duration
+	sprites       map[string]utils.ImageWithFrameDetails
+	counter       int
+	brush         int
+	splatting     bool
 }
 
 func NewSplatter(audioContext *audio.Context, sprites map[string]utils.ImageWithFrameDetails) *Splatter {
@@ -64,18 +68,19 @@ func NewSplatter(audioContext *audio.Context, sprites map[string]utils.ImageWith
 	check(err)
 	contexts = append(contexts, splatSound)
 	return &Splatter{
-		Speed:        1,
-		sprites:      sprites,
-		audioContext: audioContext,
-		splatSounds:  contexts,
-		frequency:    1,
-		Splats:       make([]*Splat, 0),
+		Speed:         1,
+		sprites:       sprites,
+		audioContext:  audioContext,
+		splatSounds:   contexts,
+		SplatLifetime: time.Millisecond * 3000,
+		frequency:     1,
+		Splats:        make([]*Splat, 0),
 	}
 }
 
 func (splatManager *Splatter) Update() error {
 	splatManager.counter = (splatManager.counter + 1) % math.MaxInt
-	frequency := 60 / splatManager.Speed
+	frequency := 120 / splatManager.Speed
 	spawnCheck := splatManager.counter%frequency == 0
 
 	if spawnCheck && !splatManager.splatting {
@@ -115,11 +120,11 @@ func (splatManager *Splatter) Draw(screen *ebiten.Image) {
 			splat.y-frameHeight/2,
 		)
 
-		var colorManager colorm.ColorM
+		colorManager := colorm.ColorM{}
 		colorManager.Scale(0, 0, 0, 1)
-		r := float64(splat.color.R) / 0xff
-		g := float64(splat.color.G) / 0xff
-		b := float64(splat.color.B) / 0xff
+		r := float64(splat.Color.R) / 0xff
+		g := float64(splat.Color.G) / 0xff
+		b := float64(splat.Color.B) / 0xff
 		colorManager.Translate(r, g, b, 0)
 
 		colorm.DrawImage(screen, frame.Image, colorManager, opts)
@@ -129,23 +134,30 @@ func (splatManager *Splatter) Draw(screen *ebiten.Image) {
 func (splatManager *Splatter) createRandomSplat() *Splat {
 	random := rand.Intn(len(colors))
 	return &Splat{
-		x:           float64(rand.Intn(constants.ResX)),
-		y:           float64(rand.Intn(constants.ResY)),
-		asset:       splatManager.sprites[fmt.Sprintf("splat%02d.png", rand.Intn(36))],
-		normalScale: .1,
-		scale:       1,
-		color:       colors[random],
+		x:            float64(rand.Intn(constants.ResX)),
+		y:            float64(rand.Intn(constants.ResY)),
+		asset:        splatManager.sprites[fmt.Sprintf("splat%02d.png", rand.Intn(36))],
+		CreationTime: time.Now(),
+		normalScale:  .1,
+		scale:        1,
+		Color:        colors[random],
 	}
 }
 
 func (s *Splat) CheckCollision(cursorPosX, cursorPosY int) bool {
 	var True bool = false
-	if !s.done {
+	if !s.done || s.IsMoldy {
 		return True
 	}
 	frameWidth, frameHeight := float64(s.asset.FrameData.SourceSize.W)*s.scale,
 		float64(s.asset.FrameData.SourceSize.H)*s.scale
 	splatStartX, splatStartY := s.x-frameWidth/2, s.y-frameHeight/2
-	return float64(cursorPosX) > splatStartX && float64(cursorPosX) < splatStartX+frameWidth &&
+	isClickingOnSplat := float64(cursorPosX) > splatStartX && float64(cursorPosX) < splatStartX+frameWidth &&
 		float64(cursorPosY) > splatStartY && float64(cursorPosY) < splatStartY+frameHeight
+	return isClickingOnSplat
+}
+
+func (s *Splat) MakeMoldy() {
+	s.IsMoldy = true
+	s.Color = color.RGBA{0xff, 0xff, 0xff, 0xff}
 }
