@@ -9,8 +9,16 @@
 	"sourceSize": {"w":144,"h":16}
 },
 {
+	"filename": "restart_button.png",
+	"frame": {"x":144,"y":0,"w":160,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":48},
+	"sourceSize": {"w":160,"h":48}
+},
+{
 	"filename": "splat00.png",
-	"frame": {"x":144,"y":0,"w":256,"h":256},
+	"frame": {"x":464,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -18,7 +26,7 @@
 },
 {
 	"filename": "splat01.png",
-	"frame": {"x":400,"y":0,"w":256,"h":256},
+	"frame": {"x":720,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -26,7 +34,7 @@
 },
 {
 	"filename": "splat02.png",
-	"frame": {"x":656,"y":0,"w":256,"h":256},
+	"frame": {"x":976,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -34,7 +42,7 @@
 },
 {
 	"filename": "splat03.png",
-	"frame": {"x":912,"y":0,"w":256,"h":256},
+	"frame": {"x":1232,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -42,7 +50,7 @@
 },
 {
 	"filename": "splat04.png",
-	"frame": {"x":1168,"y":0,"w":256,"h":256},
+	"frame": {"x":1488,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -50,7 +58,7 @@
 },
 {
 	"filename": "splat05.png",
-	"frame": {"x":1424,"y":0,"w":256,"h":256},
+	"frame": {"x":1744,"y":0,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -58,14 +66,6 @@
 },
 {
 	"filename": "splat06.png",
-	"frame": {"x":1680,"y":0,"w":256,"h":256},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
-	"sourceSize": {"w":256,"h":256}
-},
-{
-	"filename": "splat07.png",
 	"frame": {"x":0,"y":256,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -73,7 +73,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat08.png",
+	"filename": "splat07.png",
 	"frame": {"x":256,"y":256,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -81,7 +81,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat09.png",
+	"filename": "splat08.png",
 	"frame": {"x":512,"y":256,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -89,7 +89,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat10.png",
+	"filename": "splat09.png",
 	"frame": {"x":768,"y":256,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -97,7 +97,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat11.png",
+	"filename": "splat10.png",
 	"frame": {"x":1024,"y":256,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -105,7 +105,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat12.png",
+	"filename": "splat11.png",
 	"frame": {"x":1280,"y":256,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -113,7 +113,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat13.png",
+	"filename": "splat12.png",
 	"frame": {"x":1536,"y":256,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -121,7 +121,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat14.png",
+	"filename": "splat13.png",
 	"frame": {"x":1792,"y":256,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -129,7 +129,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat15.png",
+	"filename": "splat14.png",
 	"frame": {"x":0,"y":512,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -137,7 +137,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat16.png",
+	"filename": "splat15.png",
 	"frame": {"x":256,"y":512,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -145,7 +145,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat17.png",
+	"filename": "splat16.png",
 	"frame": {"x":512,"y":512,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -153,7 +153,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat18.png",
+	"filename": "splat17.png",
 	"frame": {"x":768,"y":512,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -161,7 +161,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat19.png",
+	"filename": "splat18.png",
 	"frame": {"x":1024,"y":512,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -169,7 +169,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat20.png",
+	"filename": "splat19.png",
 	"frame": {"x":1280,"y":512,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -177,7 +177,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat21.png",
+	"filename": "splat20.png",
 	"frame": {"x":1536,"y":512,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -185,7 +185,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat22.png",
+	"filename": "splat21.png",
 	"frame": {"x":1792,"y":512,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -193,7 +193,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat23.png",
+	"filename": "splat22.png",
 	"frame": {"x":0,"y":768,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -201,7 +201,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat24.png",
+	"filename": "splat23.png",
 	"frame": {"x":256,"y":768,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -209,7 +209,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat25.png",
+	"filename": "splat24.png",
 	"frame": {"x":512,"y":768,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -217,7 +217,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat26.png",
+	"filename": "splat25.png",
 	"frame": {"x":768,"y":768,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -225,7 +225,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat27.png",
+	"filename": "splat26.png",
 	"frame": {"x":1024,"y":768,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -233,7 +233,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat28.png",
+	"filename": "splat27.png",
 	"frame": {"x":1280,"y":768,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -241,7 +241,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat29.png",
+	"filename": "splat28.png",
 	"frame": {"x":1536,"y":768,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -249,7 +249,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat30.png",
+	"filename": "splat29.png",
 	"frame": {"x":1792,"y":768,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -257,7 +257,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat31.png",
+	"filename": "splat30.png",
 	"frame": {"x":0,"y":1024,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -265,7 +265,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat32.png",
+	"filename": "splat31.png",
 	"frame": {"x":256,"y":1024,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -273,7 +273,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat33.png",
+	"filename": "splat32.png",
 	"frame": {"x":512,"y":1024,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -281,7 +281,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat34.png",
+	"filename": "splat33.png",
 	"frame": {"x":768,"y":1024,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -289,7 +289,7 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
-	"filename": "splat35.png",
+	"filename": "splat34.png",
 	"frame": {"x":1024,"y":1024,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
@@ -297,8 +297,16 @@
 	"sourceSize": {"w":256,"h":256}
 },
 {
+	"filename": "splat35.png",
+	"frame": {"x":1280,"y":1024,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+{
 	"filename": "start_button.png",
-	"frame": {"x":1280,"y":1024,"w":160,"h":48},
+	"frame": {"x":304,"y":0,"w":160,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":48},
@@ -306,7 +314,7 @@
 },
 {
 	"filename": "title.png",
-	"frame": {"x":1440,"y":1024,"w":509,"h":126},
+	"frame": {"x":1536,"y":1024,"w":509,"h":126},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":509,"h":126},
@@ -319,6 +327,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":1280},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:9fcf31ec772397a7d11fb119cb5eadc7:30b170de4351dca1f3092027f8ab8e21:1eabdf11f75e3a4fe3147baf7b5be24b$"
+	"smartupdate": "$TexturePacker:SmartUpdate:41b602abfbfcbe1e65bd2b3697aee389:27764e131e79dbbaa0dcc75ab19ff633:1eabdf11f75e3a4fe3147baf7b5be24b$"
 }
 }

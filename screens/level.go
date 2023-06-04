@@ -14,27 +14,25 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/text"
 	audio2 "github.com/jodios/minijamegame18/assets/audio"
 	"github.com/jodios/minijamegame18/assets/tiles"
-	"github.com/jodios/minijamegame18/public"
 	"github.com/jodios/minijamegame18/splatter"
 	"github.com/jodios/minijamegame18/utils"
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/opentype"
 )
 
 type Level struct {
+	Score          int
+	Font           font.Face
+	DONE           bool
 	sprites        map[string]utils.ImageWithFrameDetails
 	background     *utils.Map
 	audioContext   *audio.Context
 	gameplaySong   *audio.Player
 	counter        int
 	splatGenerator *splatter.Splatter
-	score          int
 	health         int
-	Font           font.Face
-	DONE           bool
 }
 
-func NewLevelScreen(audioContext *audio.Context, sprites map[string]utils.ImageWithFrameDetails) *Level {
+func NewLevelScreen(audioContext *audio.Context, sprites map[string]utils.ImageWithFrameDetails, font font.Face) *Level {
 	mainSongDecoded, err := mp3.DecodeWithoutResampling(bytes.NewReader(audio2.MAIN_LOOP_SONG))
 	check(err)
 
@@ -42,15 +40,6 @@ func NewLevelScreen(audioContext *audio.Context, sprites map[string]utils.ImageW
 	check(err)
 
 	sc, err := utils.GetMapConfig(tiles.MAP_1_CONFIG, tiles.MAP_1)
-	check(err)
-
-	mf, err := opentype.Parse(public.MapleMono)
-	check(err)
-	font, err := opentype.NewFace(mf, &opentype.FaceOptions{
-		Size:    20,
-		DPI:     80,
-		Hinting: font.HintingVertical,
-	})
 	check(err)
 
 	return &Level{
@@ -65,6 +54,11 @@ func NewLevelScreen(audioContext *audio.Context, sprites map[string]utils.ImageW
 }
 
 func (l *Level) Update() error {
+	if l.health <= 0 {
+		l.DONE = true
+		l.gameplaySong.Close()
+		return nil
+	}
 	l.counter = (l.counter + 1) % math.MaxInt
 	if !l.gameplaySong.IsPlaying() {
 		l.gameplaySong.Rewind()
@@ -78,8 +72,8 @@ func (l *Level) Update() error {
 			l.health--
 		}
 		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) && s.CheckCollision(ebiten.CursorPosition()) {
-			l.score++
-			l.splatGenerator.Speed = l.score/10 + 1
+			l.Score++
+			l.splatGenerator.Speed = l.Score/10 + 1
 			l.removeSplat(i)
 		}
 	}
@@ -87,6 +81,11 @@ func (l *Level) Update() error {
 }
 
 func (l *Level) removeSplat(i int) {
+	// when clicking on 2 things at a time it crashes
+	// so validating the index to avoid this :)
+	if i < 0 || i >= len(l.splatGenerator.Splats) {
+		return
+	}
 	l.splatGenerator.Splats =
 		append(l.splatGenerator.Splats[:i], l.splatGenerator.Splats[i+1:]...)
 }
@@ -94,7 +93,7 @@ func (l *Level) removeSplat(i int) {
 func (l *Level) Draw(screen *ebiten.Image) {
 	l.background.Draw(screen)
 	l.splatGenerator.Draw(screen)
-	scoreString := fmt.Sprintf("Score: %d", l.score)
+	scoreString := fmt.Sprintf("Score: %d", l.Score)
 	healthString := fmt.Sprintf("Air Quality: %d", l.health)
 	text.Draw(screen, scoreString, l.Font, 0, 20, color.Black)
 	text.Draw(screen, healthString, l.Font, 0, 40, color.Black)
