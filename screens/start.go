@@ -63,13 +63,17 @@ func NewStartScreen(audioContext *audio.Context, sprites map[string]utils.ImageW
 	}
 }
 
-func (s *StartScreen) Update() error {
+func (s *StartScreen) Update(isSettingsMenuOpen bool) error {
+	s.introSong.SetVolume(constants.Volume)
 	s.counter = (s.counter + 1) % math.MaxInt
 	if !s.introSong.IsPlaying() && !s.DONE {
 		s.introSong.Rewind()
 		s.introSong.Play()
 	}
 
+	if isSettingsMenuOpen {
+		return nil
+	}
 	// checking if mouse/touch is hovering over start button
 	mouseX, mouseY := ebiten.CursorPosition()
 	tapX, tapY := inpututil.TouchPositionInPreviousTick(ebiten.TouchID(0))
@@ -90,6 +94,7 @@ func (s *StartScreen) Update() error {
 		ebiten.SetCursorShape(ebiten.CursorShapeDefault)
 	}
 	if (inpututil.IsMouseButtonJustReleased(ebiten.MouseButton0) || inpututil.IsTouchJustReleased(ebiten.TouchID(0))) && s.startButtonHover {
+		s.sweepinTime.SetVolume(constants.Volume)
 		s.sweepinTime.Rewind()
 		s.sweepinTime.Play()
 		s.introSong.Close()
@@ -99,23 +104,30 @@ func (s *StartScreen) Update() error {
 	return nil
 }
 
-func (s *StartScreen) Draw(screen *ebiten.Image) {
+func (s *StartScreen) Draw(screen *ebiten.Image, isSettingsMenuOpen bool) {
 	opts := &ebiten.DrawImageOptions{}
 	s.background.Draw(screen)
+
+	//drawing title
+	yOffset := math.Sin(float64((s.counter / 4) % 100))
+	title := s.sprites["title.png"]
+	titleScaledWidth := float64(title.FrameData.SourceSize.W) * .4
+	opts.Filter = ebiten.FilterLinear
+	opts.GeoM.Scale(.4, .4)
+	opts.GeoM.Translate(0, 16)
+	opts.GeoM.Translate(constants.ResX/2-titleScaledWidth/2.3, yOffset)
+	opts.GeoM.Rotate(15 * (math.Pi / 180))
+	screen.DrawImage(title.Image, opts)
+
+	// drawing button (if settings menu isn't open)
+	if isSettingsMenuOpen {
+		return
+	}
+	opts.GeoM.Reset()
 	opts.GeoM.Translate(s.startButtonX, s.startButtonY)
 	if s.startButtonHover {
 		opts.GeoM.Translate(3, 3)
 	}
 	screen.DrawImage(s.startButton.Image, opts)
 
-	yOffset := math.Sin(float64((s.counter / 4) % 100))
-	title := s.sprites["title.png"]
-	titleScaledWidth := float64(title.FrameData.SourceSize.W) * .4
-	opts.Filter = ebiten.FilterLinear
-	opts.GeoM.Reset()
-	opts.GeoM.Scale(.4, .4)
-	opts.GeoM.Translate(0, 16)
-	opts.GeoM.Translate(constants.ResX/2-titleScaledWidth/2.3, yOffset)
-	opts.GeoM.Rotate(15 * (math.Pi / 180))
-	screen.DrawImage(title.Image, opts)
 }

@@ -238,6 +238,36 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">restart_button.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>40,12,80,24</rect>
+                <key>scale9Paddings</key>
+                <rect>40,12,80,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">sound.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,4,32,8</rect>
+                <key>scale9Paddings</key>
+                <rect>16,4,32,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">start_button.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -314,6 +344,8 @@
                     <filename>kenney_splatpack/PNG/Default (256px)/splat34.png</filename>
                     <filename>kenney_splatpack/PNG/Default (256px)/splat35.png</filename>
                     <filename>title.png</filename>
+                    <filename>restart_button.png</filename>
+                    <filename>sound.png</filename>
                 </array>
             </struct>
         </map>

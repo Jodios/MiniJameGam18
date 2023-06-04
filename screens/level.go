@@ -3,6 +3,7 @@ package screens
 import (
 	"bytes"
 	"fmt"
+	"github.com/jodios/minijamegame18/constants"
 	"image/color"
 	"math"
 	"time"
@@ -53,7 +54,11 @@ func NewLevelScreen(audioContext *audio.Context, sprites map[string]utils.ImageW
 	}
 }
 
-func (l *Level) Update() error {
+func (l *Level) Update(isSettingsOpen bool) error {
+	l.gameplaySong.SetVolume(constants.Volume)
+	if isSettingsOpen {
+		return nil
+	}
 	if l.health <= 0 {
 		l.DONE = true
 		l.gameplaySong.Close()
@@ -64,7 +69,7 @@ func (l *Level) Update() error {
 		l.gameplaySong.Rewind()
 		l.gameplaySong.Play()
 	}
-	l.splatGenerator.Update()
+	l.splatGenerator.Update(isSettingsOpen)
 	for i, s := range l.splatGenerator.Splats {
 		splatIsTooOld := time.Now().Sub(s.CreationTime) > l.splatGenerator.SplatLifetime
 		if splatIsTooOld && !s.IsMoldy {
@@ -83,13 +88,13 @@ func (l *Level) Update() error {
 	return nil
 }
 
-func (l *Level) Draw(screen *ebiten.Image) {
+func (l *Level) Draw(screen *ebiten.Image, isSettingsOpen bool) {
 	l.background.Draw(screen)
-	l.splatGenerator.Draw(screen)
 	scoreString := fmt.Sprintf("Score: %d", l.Score)
 	healthString := fmt.Sprintf("Air Quality: %d", l.health)
 	text.Draw(screen, scoreString, l.Font, 0, 20, color.Black)
 	text.Draw(screen, healthString, l.Font, 0, 40, color.Black)
+	l.splatGenerator.Draw(screen, isSettingsOpen)
 }
 
 func (l *Level) removeSplat(i int) {

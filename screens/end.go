@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"golang.org/x/image/font"
-	color2 "image/color"
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -71,11 +70,16 @@ func NewEndScreen(audioContext *audio.Context, sprites map[string]utils.ImageWit
 	}
 }
 
-func (e *EndScreen) Update() error {
+func (e *EndScreen) Update(isSettingsOpen bool) error {
+	e.endSong.SetVolume(constants.Volume)
+	e.sweepinTime.SetVolume(constants.Volume)
 	e.counter = (e.counter + 1) % math.MaxInt
 	if !e.endSong.IsPlaying() && !e.DONE {
 		e.endSong.Rewind()
 		e.endSong.Play()
+	}
+	if isSettingsOpen {
+		return nil
 	}
 	// checking if mouse is hovering over end button
 	mouseX, mouseY := ebiten.CursorPosition()
@@ -106,30 +110,26 @@ func (e *EndScreen) Update() error {
 	return nil
 }
 
-func (e *EndScreen) Draw(screen *ebiten.Image) {
+func (e *EndScreen) Draw(screen *ebiten.Image, isSettingsOpen bool) {
 	e.background.Draw(screen)
 
-	yOffset := math.Sin(float64((e.counter / 5) % 100))
-	opts := new(ebiten.DrawImageOptions)
-	//opts.Filter = ebiten.FilterLinear
-	opts.GeoM.Translate(e.endButtonX, e.endButtonY+yOffset)
-	if e.endButtonHover {
-		opts.GeoM.Translate(3, 3)
-	}
-	screen.DrawImage(e.endButton.Image, opts)
-
-	color := color2.RGBA{
-		R: 0x51,
-		G: 0x4b,
-		B: 0x6d,
-		A: 0xff,
-	}
 	messageStartX := constants.ResX / 2
 	messageStartY := constants.ResY / 2
 	m1 := fmt.Sprintf(fmt.Sprintf("You've been"))
 	m2 := fmt.Sprintf("poisoned by mold!")
 	m3 := fmt.Sprintf("Score: %d", e.Score)
-	text.Draw(screen, m1, e.font, messageStartX/2-10, messageStartY/3, color)
-	text.Draw(screen, m2, e.font, messageStartX/2-48, messageStartY/3+30, color)
-	text.Draw(screen, m3, e.font, messageStartX/2+10, messageStartY/3+70, color)
+	text.Draw(screen, m1, e.font, messageStartX/2-10, messageStartY/3, constants.BackgroundColor)
+	text.Draw(screen, m2, e.font, messageStartX/2-48, messageStartY/3+30, constants.BackgroundColor)
+	text.Draw(screen, m3, e.font, messageStartX/2+10, messageStartY/3+70, constants.BackgroundColor)
+
+	if isSettingsOpen {
+		return
+	}
+	opts := new(ebiten.DrawImageOptions)
+	yOffset := math.Sin(float64((e.counter / 5) % 100))
+	opts.GeoM.Translate(e.endButtonX, e.endButtonY+yOffset)
+	if e.endButtonHover {
+		opts.GeoM.Translate(3, 3)
+	}
+	screen.DrawImage(e.endButton.Image, opts)
 }

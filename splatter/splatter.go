@@ -78,7 +78,13 @@ func NewSplatter(audioContext *audio.Context, sprites map[string]utils.ImageWith
 	}
 }
 
-func (splatManager *Splatter) Update() error {
+// TODO: since we're basing splats based on time
+// having the settings thing open still makes them
+// go moldy :( can't be bothered to fix it right now
+func (splatManager *Splatter) Update(isSettingsOpen bool) error {
+	if isSettingsOpen {
+		return nil
+	}
 	splatManager.counter = (splatManager.counter + 1) % math.MaxInt
 	frequency := 120 / splatManager.Speed
 	spawnCheck := splatManager.counter%frequency == 0
@@ -98,6 +104,7 @@ func (splatManager *Splatter) Update() error {
 			splatManager.splatting = true
 		} else {
 			randomSound := rand.Intn(len(splatManager.splatSounds))
+			splatManager.splatSounds[randomSound].SetVolume(constants.Volume)
 			splatManager.splatSounds[randomSound].Rewind()
 			splatManager.splatSounds[randomSound].Play()
 			splat.done = true
@@ -107,7 +114,7 @@ func (splatManager *Splatter) Update() error {
 	return nil
 }
 
-func (splatManager *Splatter) Draw(screen *ebiten.Image) {
+func (splatManager *Splatter) Draw(screen *ebiten.Image, isSettingsOpen bool) {
 	for _, splat := range splatManager.Splats {
 		opts := &colorm.DrawImageOptions{}
 		frame := splat.asset
